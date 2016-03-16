@@ -1,0 +1,20 @@
+{
+  "name": "RxJS-Angular1x",
+  "version": "0.0.0",
+  "authors": [
+    "V Keerti Kotaru <twitter: @kvkirthy>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-rx": "~1.1.3",
+    "angular": "~1.5.1",
+    "underscore": "~1.8.3"
+  }
+}

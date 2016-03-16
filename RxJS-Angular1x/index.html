@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Type Ahead Search Sample</title>
+        <script src="bower_components/rxjs/dist/rx.lite.min.js"></script>        
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-rx/dist/rx.angular.js"></script>
+    </head>
+    
+    <body ng-app="typeAheadSample" style="padding:20px">
+        <h1>RxJS Sample with AngularJS</h1>
+        <div ng-controller="typeAheadSearchController">
+            <input type="text" ng-model="searchString" ng-change="search()" placeholder="Enter your search term here.">
+            
+            <div ng-repeat="message in messages track by $index">
+                <div>{{message.name}}</div>
+            </div>
+        </div>
+                    
+        <script>
+            angular.module("typeAheadSample", ["rx"])
+                .controller("typeAheadSearchController", function($scope, rx, $http){
+                    $scope.$createObservableFunction('search')
+                        .debounce(500)
+                        .flatMapLatest(function(term){
+                             return rx.Observable                                
+                                .fromPromise($http({
+                                    url: "http://localhost:3001/api/search?term=" + $scope.searchString,
+                                    method: "get"                                
+                                }))
+                            .map(function(response){                                
+                                return response.data;    
+                            }); 
+                        })
+                        .subscribe(function(results) {
+                            $scope.$apply(function(){
+                                $scope.messages = results;    
+                            });
+                        });           
+                });
+        </script>
+        
+
+    </body>
+</html>
